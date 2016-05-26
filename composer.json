@@ -1,0 +1,26 @@
+{
+  "name": "systream/knn",
+  "description": "k-Nearest Neighbors algorithm implementation in php for classification and regression",
+  "minimum-stability": "dev",
+  "license": "MIT",
+  "keywords": ["knn", "classification", "regression", "nearest neighbors", "algorithm"],
+  "authors": [
+    {
+      "name": "Peter Tihanyi",
+      "email": "tihi@systream.hu"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Systream\\": "src/",
+      "Tests\\Systream\\": "tests/"
+    }
+  },
+  "require": {
+    "php": ">=5.4.0",
+    "systream/repository": "dev-master"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "~5.3"
+  }
+}
