@@ -9,7 +9,7 @@ class NodeTest extends \PHPUnit_Framework_TestCase
 {
 
 	/**
-	 * @test
+	 * @tests
 	 * @param int $value
 	 * @dataProvider numericInputs
 	 */
@@ -21,7 +21,7 @@ class NodeTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @test
+	 * @tests
 	 * @param int $value
 	 * @dataProvider numericInputs
 	 */
@@ -39,7 +39,7 @@ class NodeTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @test
+	 * @tests
 	 * @param int $value
 	 * @dataProvider numericInputs
 	 */
@@ -53,7 +53,7 @@ class NodeTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @test
+	 * @tests
 	 */
 	public function getCoordinate_empty()
 	{
@@ -63,7 +63,7 @@ class NodeTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @test
+	 * @tests
 	 */
 	public function getCoordinate_notExistsCoordinate()
 	{
@@ -100,7 +100,7 @@ class NodeTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @test
+	 * @tests
 	 * @param int $value
 	 * @dataProvider nonNumericInputs
 	 * @expectedException \Exception
@@ -126,7 +126,7 @@ class NodeTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @test
+	 * @tests
 	 * @param int $value
 	 * @dataProvider numericInputs
 	 * @depends acceptNumericValues
@@ -139,7 +139,7 @@ class NodeTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @test
+	 * @tests
 	 * @param int $value
 	 * @dataProvider nonNumericInputs
 	 * @expectedException \Exception

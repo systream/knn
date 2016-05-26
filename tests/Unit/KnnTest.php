@@ -9,7 +9,7 @@ class KnnTest extends \PHPUnit_Framework_TestCase
 {
 
 	/**
-	 * @test
+	 * @tests
 	 */
 	public function oneDimension_simple()
 	{
@@ -32,7 +32,7 @@ class KnnTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @test
+	 * @tests
 	 */
 	public function oneDimension_negative()
 	{
