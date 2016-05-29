@@ -41,7 +41,7 @@ class KnnTest extends KnnTestAbstract
 
 		$knn->getNeighbours($testNode);
 		
-		$this->assertLessThanOrEqual(2, microtime(true)-$startTime);
+		$this->assertLessThanOrEqual(3, microtime(true)-$startTime);
 
 	}
 }

@@ -67,11 +67,17 @@ class Knn
 	 */
 	public function getNeighbours(NodeInterface $node, $count = 3)
 	{
-		$ranges = $this->ranges;
 		usort(
 			$this->nodes,
-			function (NodeInterface $nodeA, NodeInterface $nodeB) use ($node, $ranges) {
-				return $nodeA->getDistance($node, $ranges) > $nodeB->getDistance($node, $ranges);
+			function (NodeInterface $nodeA, NodeInterface $nodeB) use ($node) {
+				$distanceA = $nodeA->getDistance($node, $this->ranges);
+				$distanceB = $nodeB->getDistance($node, $this->ranges);
+
+				if ($distanceA == $distanceB) {
+					return 0;
+				}
+
+				return ($distanceA < $distanceB) ? -1 : 1;
 			}
 		);
 		return array_slice($this->nodes, 0, $count);
