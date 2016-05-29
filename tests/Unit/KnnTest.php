@@ -5,7 +5,7 @@ namespace Tests\Systream\Unit;
 
 use Systream\Knn;
 
-class KnnTest extends \PHPUnit_Framework_TestCase
+class KnnTest extends KnnTestAbstract
 {
 
 	/**
@@ -22,7 +22,7 @@ class KnnTest extends \PHPUnit_Framework_TestCase
 		$knn->addNode($node3);
 
 		$neighbours = $knn->getNeighbours($this->createNode(array('x' => 0)), 1);
-		
+
 		$this->assertEquals(
 			array(
 				$node1
@@ -55,13 +55,80 @@ class KnnTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @param array $data
-	 * @return Knn\Node
+	 * @param array $nodes
+	 * @param Knn\Node $testNode
+	 * @param Knn\Node $expectedNode
+	 * @tests
+	 * @dataProvider multiDimensionDataProvider
 	 */
-	protected function createNode(array $data)
+	public function multiDimension(array $nodes, Knn\Node $testNode, Knn\Node $expectedNode)
 	{
-		$node = new Knn\Node();
-		$node->loadData($data);
-		return $node;
+		$knn = new Knn();
+		foreach ($nodes as $node) {
+			$knn->addNode($node);
+		}
+
+		$neighbours = $knn->getNeighbours($testNode, 1);
+
+		$this->assertEquals(
+			array(
+				$expectedNode->toArray()
+			),
+			array(
+				$neighbours[0]->toArray()
+			)
+		);
+	}
+
+	/**
+	 * @return array
+	 */
+	public function multiDimensionDataProvider()
+	{
+		return array(
+			array(
+				array(
+					$this->createNodeWithData(10,10),
+					$this->createNodeWithData(12,12),
+					$this->createNodeWithData(10,12),
+					$this->createNodeWithData(5,10)
+				),
+				$this->createNodeWithData(9,10),
+				$this->createNodeWithData(10,10)
+			), // -----
+
+			array(
+				array(
+					$this->createNodeWithData(-10,-10),
+					$this->createNodeWithData(0,2),
+					$this->createNodeWithData(2,-3301231232),
+					$this->createNodeWithData(-3123123,131231231231231231230)
+				),
+				$this->createNodeWithData(-1,3),
+				$this->createNodeWithData(0,2),
+			), // -----
+
+			array(
+				array(
+					$this->createNodeWithData(-10,-10, -10),
+					$this->createNodeWithData(0,2, 0),
+					$this->createNodeWithData(2,-3301231232, 12),
+					$this->createNodeWithData(-3123123,131231231231231231230, 0)
+				),
+				$this->createNodeWithData(1,-1, 2),
+				$this->createNodeWithData(0,2, 0),
+			), // -----
+
+			array(
+				array(
+					$this->createNodeWithData(-10, -10, -10, 10),
+					$this->createNodeWithData(0, 2, 0, 2),
+					$this->createNodeWithData(2, -3301231232, 12, 1123123),
+					$this->createNodeWithData(-3123123, 131231231231231231230, 0, -31)
+				),
+				$this->createNodeWithData(1,-1, 2, 0),
+				$this->createNodeWithData(0, 2, 0, 2),
+			), // -----
+		);
 	}
 }

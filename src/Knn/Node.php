@@ -13,6 +13,9 @@ class Node extends ModelAbstract implements NodeInterface
 	 */
 	protected $distance;
 
+	/** @var  array */
+	protected $distanceCache = array();
+
 	/**
 	 * @param null|string $name
 	 * @return array
@@ -65,14 +68,26 @@ class Node extends ModelAbstract implements NodeInterface
 
 	/**
 	 * @param NodeInterface $node
+	 * @param array $neighboursFieldRanges
 	 * @return float
 	 */
-	public function getDistance(NodeInterface $node)
+	public function getDistance(NodeInterface $node, array $neighboursFieldRanges = array())
 	{
+		$nodeHashId = $node->getId();
+
+		if (isset($this->distanceCache[$nodeHashId])) {
+			return $this->distanceCache[$nodeHashId];
+		}
+
 		$coordinatesDistance = array();
 
+
 		foreach ($node->getCoordinate() as $name => $value) {
-			$coordinatesDistance[$name] = $this->getCoordinate($name) - $value;
+			$coordinatesDistance[$name] = $this->$name - $value;
+
+			if (isset($neighboursFieldRanges[$name])) {
+				$coordinatesDistance[$name] = $coordinatesDistance[$name] / $neighboursFieldRanges[$name];
+			}
 		}
 
 		$totalDistance = 0;
@@ -80,6 +95,43 @@ class Node extends ModelAbstract implements NodeInterface
 			$totalDistance += $oneCoordinatesDistance * $oneCoordinatesDistance;
 		}
 
-		return sqrt($totalDistance);
+		$result = sqrt($totalDistance);
+		$this->distanceCache[$nodeHashId] = $result;
+		return $result;
+	}
+
+	/**
+	 * @return float
+	 */
+	public function getMinCoordinateValue()
+	{
+		if (empty($this->data)) {
+			return 0;
+		}
+		return min($this->data);
+	}
+
+	/**
+	 * @return float
+	 */
+	public function getMaxCoordinateValue()
+	{
+		if (empty($this->data)) {
+			return INF;
+		}
+		return max($this->data);
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getId()
+	{
+		$id = '';
+		foreach ($this->data as $field => $value) {
+			$id .= $field . ':' . $value . '|';
+		}
+
+		return md5($id);
 	}
 }

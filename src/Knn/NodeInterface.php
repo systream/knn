@@ -13,7 +13,13 @@ interface NodeInterface
 
 	/**
 	 * @param NodeInterface $node
+	 * @param array $neighboursFieldRanges
 	 * @return float
 	 */
-	public function getDistance(NodeInterface $node);
+	public function getDistance(NodeInterface $node, array $neighboursFieldRanges = array());
+
+	/**
+	 * @return string
+	 */
+	public function getId();
 }

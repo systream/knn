@@ -1,5 +1,6 @@
 language: php
 php:
+  - '5.4'
   - '5.6'
   - '7.0'
   - hhvm
@@ -8,3 +9,10 @@ before_install:
   - composer install
 script:
   - php vendor/bin/phpunit ./tests/
+  - wget -c http://static.phpmd.org/php/latest/phpmd.phar && php phpmd.phar ./src text codesize,design,unusedcode
+
+matrix:
+  fast_finish: true
+  allow_failures:
+    - php: '5.4'
+    - php: hhvm
