@@ -9,7 +9,7 @@ before_install:
   - composer install
 script:
   - php vendor/bin/phpunit ./tests/
-  - wget -c http://static.phpmd.org/php/latest/phpmd.phar && php phpmd.phar ./src text codesize,design,unusedcode
+  - php vendor/bin/phpmd ./src/ text codesize,design,unusedcode
 
 matrix:
   fast_finish: true
