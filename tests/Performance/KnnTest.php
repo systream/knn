@@ -14,6 +14,15 @@ class KnnTest extends KnnTestAbstract
 	 */
 	public function test10000Node3dimension()
 	{
+
+		if (version_compare(PHP_VERSION, '7.0.0') >= 0) {
+			$addTime = 1.6;
+			$neighbourTime = 20;
+		} else {
+			$addTime = 2.5;
+			$neighbourTime = 35;
+		}
+
 		$nodes = array();
 		for ($x = 0; $x < 100000; $x++) {
 			$nodes[] =
@@ -36,12 +45,13 @@ class KnnTest extends KnnTestAbstract
 			$knn->addNode($node);
 		}
 
-		$this->assertLessThanOrEqual(1.5, microtime(true)-$startTime, sprintf('%d node adding should be less thean 150ms', $x));
+
+		$this->assertLessThanOrEqual($addTime, microtime(true)-$startTime, sprintf('%d node adding should be less thean 150ms', $x));
 
 		$startTime = microtime(true);
 		$knn->getNeighbours($testNode);
 		
-		$this->assertLessThanOrEqual(20, microtime(true)-$startTime);
+		$this->assertLessThanOrEqual($neighbourTime, microtime(true)-$startTime);
 
 	}
 }
