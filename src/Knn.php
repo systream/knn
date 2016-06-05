@@ -67,12 +67,15 @@ class Knn
 	 */
 	public function getNeighbours(NodeInterface $node, $count = 3)
 	{
+		$distanceCache = array();
+		
 		usort(
 			$this->nodes,
-			function (NodeInterface $nodeA, NodeInterface $nodeB) use ($node) {
+			function (NodeInterface $nodeA, NodeInterface $nodeB) use ($node, &$distanceCache) {
+				
 				$distanceA = $nodeA->getDistance($node, $this->ranges);
 				$distanceB = $nodeB->getDistance($node, $this->ranges);
-
+				
 				if ($distanceA == $distanceB) {
 					return 0;
 				}
@@ -81,18 +84,5 @@ class Knn
 			}
 		);
 		return array_slice($this->nodes, 0, $count);
-	}
-
-	/**
-	 * @param string $field
-	 * @return int|mixed
-	 */
-	protected function getFieldRange($field)
-	{
-		if (!isset($this->fieldMin[$field])) {
-			return 0;
-		}
-
-		return $this->fieldMax[$field] - $this->fieldMin[$field];
 	}
 }

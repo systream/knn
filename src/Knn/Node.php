@@ -8,12 +8,9 @@ use Systream\Repository\Model\ModelAbstract;
 
 class Node extends ModelAbstract implements NodeInterface
 {
-	/**
-	 * @var float
+	/** 
+	 * @var array 
 	 */
-	protected $distance;
-
-	/** @var  array */
 	protected $distanceCache = array();
 
 	/**
@@ -23,12 +20,11 @@ class Node extends ModelAbstract implements NodeInterface
 	public function getCoordinate($name = null)
 	{
 		if ($name !== null) {
-			return $this->$name;
+			return isset($this->data[$name]) ? $this->data[$name] : null;
 		}
 		return $this->toArray();
 	}
-
-
+	
 	/**
 	 * @param string $name
 	 * @param int $value
@@ -78,48 +74,22 @@ class Node extends ModelAbstract implements NodeInterface
 		if (isset($this->distanceCache[$nodeHashId])) {
 			return $this->distanceCache[$nodeHashId];
 		}
-
-		$coordinatesDistance = array();
-
+		
+		$totalDistance = 0;
 
 		foreach ($node->getCoordinate() as $name => $value) {
-			$coordinatesDistance[$name] = $this->$name - $value;
+			$oneCoordinatesDistance = $this->data[$name] - $value;
 
 			if (isset($neighboursFieldRanges[$name])) {
-				$coordinatesDistance[$name] = $coordinatesDistance[$name] / $neighboursFieldRanges[$name];
+				$oneCoordinatesDistance = $oneCoordinatesDistance / $neighboursFieldRanges[$name];
 			}
-		}
 
-		$totalDistance = 0;
-		foreach ($coordinatesDistance as $oneCoordinatesDistance) {
 			$totalDistance += $oneCoordinatesDistance * $oneCoordinatesDistance;
 		}
 
 		$result = sqrt($totalDistance);
 		$this->distanceCache[$nodeHashId] = $result;
 		return $result;
-	}
-
-	/**
-	 * @return float
-	 */
-	public function getMinCoordinateValue()
-	{
-		if (empty($this->data)) {
-			return 0;
-		}
-		return min($this->data);
-	}
-
-	/**
-	 * @return float
-	 */
-	public function getMaxCoordinateValue()
-	{
-		if (empty($this->data)) {
-			return INF;
-		}
-		return max($this->data);
 	}
 
 	/**
@@ -132,6 +102,6 @@ class Node extends ModelAbstract implements NodeInterface
 			$id .= $field . ':' . $value . '|';
 		}
 
-		return md5($id);
+		return $id;
 	}
 }
