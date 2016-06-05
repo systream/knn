@@ -67,8 +67,6 @@ class Knn
 	 */
 	public function getNeighbours(NodeInterface $node, $count = 3)
 	{
-		$distanceCache = array();
-		
 		usort(
 			$this->nodes,
 			function (NodeInterface $nodeA, NodeInterface $nodeB) use ($node, &$distanceCache) {
