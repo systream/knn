@@ -12,15 +12,15 @@ class KnnTest extends KnnTestAbstract
 	/**
 	 * @tests
 	 */
-	public function test10000Node3dimension()
+	public function test100000Node3dimension()
 	{
 
 		if (version_compare(PHP_VERSION, '7.0.0') >= 0) {
 			$addTime = 1.6;
-			$neighbourTime = 20;
+			$neighbourTime = 35;
 		} else {
 			$addTime = 2.5;
-			$neighbourTime = 35;
+			$neighbourTime = 60;
 		}
 
 		$nodes = array();
