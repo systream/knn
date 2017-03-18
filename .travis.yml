@@ -5,7 +5,7 @@ php:
   - hhvm
   - nightly
 before_install:
-  - composer install
+  - composer install --ignore-platform-reqs
 script:
   - php vendor/bin/phpunit ./tests/
   - php vendor/bin/phpmd ./src/ text codesize,design,unusedcode
